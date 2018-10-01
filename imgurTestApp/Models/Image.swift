@@ -16,26 +16,25 @@ class Image : Object {
     @objc dynamic var title: String = ""
     @objc dynamic var points: Int = 0
     @objc dynamic var score: Int = 0
-    @objc dynamic var imagesCount: Int = 0
     @objc dynamic var imageId: String = ""
     @objc dynamic var imageType: String = ""
     @objc dynamic var imageLink: String = ""
-    @objc dynamic var comment: Comment? = Comment()
+    var comment: List<Comment> = List<Comment>()
     
     override static func primaryKey() -> String? {
         return "id"
     }
     
-    convenience  init(id: String, title: String, points: Int, score: Int, imagesCount: Int, imageId: String, imageType: String,  imageLink: String, comment: Comment? ) {
+    convenience  init(id: String, title: String, points: Int, score: Int, imageId: String, imageType: String,  imageLink: String, comment: List<Comment> ) {
         self.init()
         self.id = id
         self.title = title
         self.points = points
         self.score = score
-        self.imagesCount = imagesCount
         self.imageId = imageId
         self.imageType = imageType
         self.imageLink = imageLink
+        self .comment = comment
     }
     
 }
@@ -43,7 +42,7 @@ class Image : Object {
 ///Модель Realm для объекта Comment
 class Comment : Object {
     
-    @objc dynamic var id: String = ""
+    @objc dynamic var id: Int = 0
     @objc dynamic var image_id: String = ""
     @objc dynamic var comment: String = ""
     @objc dynamic var author: String = ""
@@ -54,7 +53,7 @@ class Comment : Object {
         return "id"
     }
     
-    convenience  init(id: String, image_id: String, comment: String,  author: String, downs: Int, ups: Int) {
+    convenience  init(id: Int, image_id: String, comment: String,  author: String, downs: Int, ups: Int) {
         self.init()
         self.id = id
         self.image_id = image_id

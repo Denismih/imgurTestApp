@@ -19,6 +19,7 @@
 		52A80BC821610E4400DFF640 /* ImageAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A80BC721610E4400DFF640 /* ImageAPI.swift */; };
 		52A80BCA21610E7200DFF640 /* ApiClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A80BC921610E7200DFF640 /* ApiClass.swift */; };
 		52A80BCC21610F0C00DFF640 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A80BCB21610F0C00DFF640 /* Constants.swift */; };
+		8470E599216218DC00772E39 /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8470E598216218DC00772E39 /* RealmService.swift */; };
 		ADB061251D23CA1334E714CD /* Pods_imgurTestApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18F5337E5073992310FF19CD /* Pods_imgurTestApp.framework */; };
 		CA3B7D79F6ED0CB979CF4C00 /* Pods_imgurTestAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EA98995196BF367D488D81A /* Pods_imgurTestAppTests.framework */; };
 /* End PBXBuildFile section */
@@ -63,6 +64,7 @@
 		52A80BCB21610F0C00DFF640 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		59BA0A63B972F2BEE63960A5 /* Pods-imgurTestAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-imgurTestAppUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-imgurTestAppUITests/Pods-imgurTestAppUITests.release.xcconfig"; sourceTree = "<group>"; };
 		762861A88FC9DD514514994E /* Pods-imgurTestAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-imgurTestAppUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-imgurTestAppUITests/Pods-imgurTestAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		8470E598216218DC00772E39 /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
 		A9A1D30DD159D4F1D3701600 /* Pods-imgurTestAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-imgurTestAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-imgurTestAppTests/Pods-imgurTestAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		EA0CC6E2B20BE948EC2C2319 /* Pods-imgurTestAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-imgurTestAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-imgurTestAppTests/Pods-imgurTestAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F30D0BFD5A9B8AC2CA0360CD /* Pods-imgurTestApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-imgurTestApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-imgurTestApp/Pods-imgurTestApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 				52A80B9C2160CCB900DFF640 /* Assets.xcassets */,
 				52A80B9E2160CCB900DFF640 /* LaunchScreen.storyboard */,
 				52A80BA12160CCB900DFF640 /* Info.plist */,
+				8470E598216218DC00772E39 /* RealmService.swift */,
 			);
 			path = imgurTestApp;
 			sourceTree = "<group>";
@@ -415,6 +418,7 @@
 			files = (
 				52A80B982160CCB600DFF640 /* ViewController.swift in Sources */,
 				52A80BC4216107DB00DFF640 /* Image.swift in Sources */,
+				8470E599216218DC00772E39 /* RealmService.swift in Sources */,
 				52A80BC821610E4400DFF640 /* ImageAPI.swift in Sources */,
 				52A80BCA21610E7200DFF640 /* ApiClass.swift in Sources */,
 				52A80B962160CCB600DFF640 /* AppDelegate.swift in Sources */,
