@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		02AD3CF8BC6C3A58B7CB4805 /* Pods_imgurTestAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51F381E0594283A00E42F58 /* Pods_imgurTestAppUITests.framework */; };
+		525141AC2162921400B44936 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525141AB2162921400B44936 /* DetailViewController.swift */; };
 		52A80B962160CCB600DFF640 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A80B952160CCB600DFF640 /* AppDelegate.swift */; };
 		52A80B982160CCB600DFF640 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A80B972160CCB600DFF640 /* ViewController.swift */; };
 		52A80B9B2160CCB600DFF640 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52A80B992160CCB600DFF640 /* Main.storyboard */; };
@@ -47,6 +48,7 @@
 		18F5337E5073992310FF19CD /* Pods_imgurTestApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_imgurTestApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4581840474AA93FF09154CDA /* Pods-imgurTestApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-imgurTestApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-imgurTestApp/Pods-imgurTestApp.release.xcconfig"; sourceTree = "<group>"; };
 		4EA98995196BF367D488D81A /* Pods_imgurTestAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_imgurTestAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		525141AB2162921400B44936 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		52A80B922160CCB600DFF640 /* imgurTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = imgurTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52A80B952160CCB600DFF640 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		52A80B972160CCB600DFF640 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 			children = (
 				52A80B972160CCB600DFF640 /* ViewController.swift */,
 				842863BB216258F300D9E208 /* CollectionViewCell.swift */,
+				525141AB2162921400B44936 /* DetailViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -429,6 +432,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				525141AC2162921400B44936 /* DetailViewController.swift in Sources */,
 				52A80B982160CCB600DFF640 /* ViewController.swift in Sources */,
 				52A80BC4216107DB00DFF640 /* Image.swift in Sources */,
 				842863BC216258F300D9E208 /* CollectionViewCell.swift in Sources */,

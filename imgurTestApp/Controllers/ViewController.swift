@@ -73,4 +73,10 @@ extension ViewController : UICollectionViewDelegate, UICollectionViewDataSource,
             }
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+    }
+    
+    
 }
