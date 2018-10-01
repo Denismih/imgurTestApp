@@ -12,22 +12,22 @@ import RealmSwift
 class ViewController: UIViewController {
 
     var images : Results<Image>!
+    var currentPage = 0
     @IBOutlet weak var collectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let realm = try! Realm()
-         images = realm.objects(Image.self)
         
-        for page in 0...0 {
-            api.getImageData(section: Constants.Section.top, sort: Constants.Sort.top, window: Constants.Window.day, page: page, onSuccess: {
-                print("suc")
-               
+        images = RealmService.getImages()
+        
+       
+            api.getImageData(section: Constants.Section.top, sort: Constants.Sort.top, window: Constants.Window.day, page: 0, onSuccess: {
+                print("page 0 received")
                 self.collectionView.reloadData()
             }) { (error) in
-                print(error?.localizedDescription)
+                print(" \(#function) api error - \(error?.localizedDescription)")
             }
-        }
+        
         
     }
 
@@ -60,5 +60,17 @@ extension ViewController : UICollectionViewDelegate, UICollectionViewDataSource,
     {
         super.viewWillTransition(to: size, with: coordinator)
         collectionView?.collectionViewLayout.invalidateLayout()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if images[indexPath.row].page >= currentPage {
+            currentPage += 1
+            api.getImageData(section: Constants.Section.top, sort: Constants.Sort.top, window: Constants.Window.day, page: currentPage, onSuccess: {
+                print("page \(self.currentPage) received")
+                self.collectionView.reloadData()
+            }) { (error) in
+                print(" \(#function) api error - \(error?.localizedDescription)")
+            }
+        }
     }
 }

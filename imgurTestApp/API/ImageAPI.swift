@@ -20,12 +20,9 @@ extension ApiService{
         let headers = [
             "Authorization":Constants.AuthHeader.clientId
         ]
-        let queue : DispatchQueue = DispatchQueue.global(qos: .userInitiated)
-        let group : DispatchGroup = DispatchGroup()
-        queue.async {
-            
-     
-        
+        let requestQueue : DispatchQueue = DispatchQueue.global(qos: .userInitiated)
+        let dispGroup : DispatchGroup = DispatchGroup()
+        requestQueue.async {
         Alamofire.request("\( Constants.ServerURL.imgur)/\(Constants.ServerModel.gallery)/\(section)/\(sort)/\(window)/\(page)", method: .get,  encoding: JSONEncoding.default, headers: headers)
             .validate(statusCode: 200..<300)
             .responseJSON { response in
@@ -60,11 +57,11 @@ extension ApiService{
                                             if let url = URL(string: imageLink) {
                                                 urls.append(url)
                                             }
-                                              group.enter()
+                                              dispGroup.enter()
                                             api.getImageComments(id: id, sort: Constants.Sort.top, onSuccess: { (comments) in
                                               
                                                 RealmService.saveImage(model: realmImage, comments: comments)
-                                                group.leave()
+                                                dispGroup.leave()
                                                 
                                             }, onFail: { (error) in
                                                 print("\(#function) get comments error - \(String(describing: error?.localizedDescription)) ")
@@ -72,14 +69,11 @@ extension ApiService{
                                         }
                                     }
                                 }
-                                
-                         
                         }
                         
-                        group.notify(queue: DispatchQueue.main, execute: {
+                        dispGroup.notify(queue: DispatchQueue.main, execute: {
                             onSuccess()
                         })
-                        
                         
                         let prefetcher = ImagePrefetcher(urls: urls) {
                             skippedResources, failedResources, completedResources in
@@ -88,7 +82,6 @@ extension ApiService{
                         }
                         prefetcher.start()
 
-                        
                     }
                     
                 }

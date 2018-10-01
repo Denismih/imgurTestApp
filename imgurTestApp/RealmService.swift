@@ -25,4 +25,23 @@ class RealmService {
             print("\(#function) error saving model - \(error.localizedDescription)")
         }
     }
+    
+    
+    static func getImages() -> (Results<Image>) {
+        let realm = try! Realm()
+        return realm.objects(Image.self).sorted(byKeyPath: "id").sorted(byKeyPath: "page", ascending: true)
+    }
+    
+    static func deleteAll() {
+        let realm = try! Realm()
+        
+        do {
+            try realm.write {
+                realm.deleteAll()
+                print("DB cleared")
+            }
+        } catch let error {
+            print("\(#function) error deleting model - \(error.localizedDescription)")
+        }
+    }
 }
