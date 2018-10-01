@@ -137,12 +137,12 @@
 		52A80B942160CCB600DFF640 /* imgurTestApp */ = {
 			isa = PBXGroup;
 			children = (
+				841640B72162350F0039A7A2 /* Controllers */,
 				52A80BC621610E2100DFF640 /* API */,
 				52A80BC5216107E300DFF640 /* Models */,
 				52A80B952160CCB600DFF640 /* AppDelegate.swift */,
 				52A80BCB21610F0C00DFF640 /* Constants.swift */,
 				8470E598216218DC00772E39 /* RealmService.swift */,
-				52A80B972160CCB600DFF640 /* ViewController.swift */,
 				52A80B992160CCB600DFF640 /* Main.storyboard */,
 				52A80B9C2160CCB900DFF640 /* Assets.xcassets */,
 				52A80B9E2160CCB900DFF640 /* LaunchScreen.storyboard */,
@@ -184,6 +184,14 @@
 				52A80BC721610E4400DFF640 /* ImageAPI.swift */,
 			);
 			path = API;
+			sourceTree = "<group>";
+		};
+		841640B72162350F0039A7A2 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				52A80B972160CCB600DFF640 /* ViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		FDEBC4E55F946299BB6010C8 /* Frameworks */ = {

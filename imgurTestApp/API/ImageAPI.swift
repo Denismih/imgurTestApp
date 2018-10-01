@@ -30,7 +30,7 @@ extension ApiService{
                         let json = JSON(response.data!)
                         let imageDict = json.dictionaryObject
                         guard let imageItems = imageDict?["data"] as? [[String:Any]] else {print("\(#function) json decoding error"); return}
-                        
+                        var urls : [URL] = []
                         for item in  imageItems {
                             if let images = item["images"] as? [[String: Any]] {
                                 if let imageType = images[0]["type"] as? String {
@@ -46,7 +46,11 @@ extension ApiService{
                                                 print("\(#function) item json decoding error")
                                                 return
                                         }
-                                        let realmImage = Image(id: id, title: title as! String, points: points as! Int, score: score as! Int, imageId: imageId, imageType: imageType, imageLink: imageLink, comment: nil)
+                                        let realmImage = Image(id: id, title: title as! String, points: points as! Int, score: score as! Int, imageId: imageId, imageType: imageType, imageLink: imageLink, page: page, comment: nil)
+                                        
+                                        if let url = URL(string: imageLink) {
+                                            urls.append(url)
+                                        }
                                         
                                         api.getImageComments(id: id, sort: Constants.Sort.top, onSuccess: { (comments) in
                                             
@@ -60,6 +64,13 @@ extension ApiService{
                                 }
                             }
                         }
+                        let prefetcher = ImagePrefetcher(urls: urls) {
+                            skippedResources, failedResources, completedResources in
+                            print("These resources are prefetched: \(completedResources)")
+                            print("These resources are failed: \(failedResources)")
+                        }
+                        prefetcher.start()
+
                         onSuccess()
                     }
                     
