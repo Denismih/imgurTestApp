@@ -12,6 +12,7 @@ import RealmSwift
 class ViewController: UIViewController {
 
     var images : Results<Image>!
+    @IBOutlet weak var collectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +32,8 @@ class ViewController: UIViewController {
 
 }
 
-extension ViewController : UICollectionViewDelegate, UICollectionViewDataSource {
+extension ViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return images.count
     }
@@ -42,9 +44,19 @@ extension ViewController : UICollectionViewDelegate, UICollectionViewDataSource 
         return cell
     }
     
- 
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
+    {
+        let collectionViewLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
+        
+        let insets = (collectionViewLayout?.minimumInteritemSpacing ?? 0) * CGFloat(Constants.CollectionViewSetup.itemsInRow + 1)
+        let width = (collectionView.frame.size.width - insets) / CGFloat(Constants.CollectionViewSetup.itemsInRow)
+        let heirgh =  width / CGFloat(Constants.CollectionViewSetup.aspectRatio)
+    return CGSize(width: width, height: heirgh)
+    }
     
-    
-    
-    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator)
+    {
+        super.viewWillTransition(to: size, with: coordinator)
+        collectionView?.collectionViewLayout.invalidateLayout()
+    }
 }

@@ -46,4 +46,8 @@ struct  Constants {
         static let all = "all"
     }
     
+    struct CollectionViewSetup {
+        static let itemsInRow = 2
+        static let aspectRatio = 2.0 / 3.0
+    }
 }
