@@ -8,10 +8,9 @@ target 'imgurTestApp' do
   use_frameworks!
 
 pod 'RealmSwift'
-pod 'SwiftEventBus', :tag => '3.0.0', :git => 'https://github.com/cesarferreira/SwiftEventBus.git'
 pod 'SwiftyJSON', '~> 4.0'
 pod 'Alamofire', '~> 4.7'
-pod 'SDWebImage', '~> 4.0'
+pod 'Kingfisher', '~> 4.0'
 
 
   # Pods for imgurTestApp

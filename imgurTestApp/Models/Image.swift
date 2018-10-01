@@ -19,13 +19,13 @@ class Image : Object {
     @objc dynamic var imageId: String = ""
     @objc dynamic var imageType: String = ""
     @objc dynamic var imageLink: String = ""
-    var comment: List<Comment> = List<Comment>()
+    var comment: List<Comment>? = nil
     
     override static func primaryKey() -> String? {
         return "id"
     }
     
-    convenience  init(id: String, title: String, points: Int, score: Int, imageId: String, imageType: String,  imageLink: String, comment: List<Comment> ) {
+    convenience  init(id: String, title: String, points: Int, score: Int, imageId: String, imageType: String,  imageLink: String, comment: List<Comment>? ) {
         self.init()
         self.id = id
         self.title = title

@@ -10,14 +10,14 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 import RealmSwift
+import Kingfisher
 
 
 extension ApiService{
     
     func getImageData (section: String, sort: String, window: String, page: Int, onSuccess: @escaping () -> Void, onFail: @escaping (Error?) -> Void) {
-        print("\(#file) - \(#function) URL - \( Constants.ServerURL.imgur)/\(Constants.ServerModel.gallery)/\(section)/\(sort)/\(window)/\(page)")
+       // print("\(#file) - \(#function) URL - \( Constants.ServerURL.imgur)/\(Constants.ServerModel.gallery)/\(section)/\(sort)/\(window)/\(page)")
         let headers = [
-            // "Content-Type":"application/json",
             "Authorization":Constants.AuthHeader.clientId
         ]
         
@@ -46,16 +46,16 @@ extension ApiService{
                                                 print("\(#function) item json decoding error")
                                                 return
                                         }
+                                        let realmImage = Image(id: id, title: title as! String, points: points as! Int, score: score as! Int, imageId: imageId, imageType: imageType, imageLink: imageLink, comment: nil)
                                         
                                         api.getImageComments(id: id, sort: Constants.Sort.top, onSuccess: { (comments) in
                                             
-                                            let realmImage = Image(id: id, title: title as! String, points: points as! Int, score: score as! Int, imageId: imageId, imageType: imageType, imageLink: imageLink, comment: nil)
-                                            print(realmImage)
+                                            RealmService.saveImage(model: realmImage, comments: comments)
+                                           
+                                            
                                         }, onFail: { (error) in
                                             print("\(#function) get comments error - \(String(describing: error?.localizedDescription)) ")
                                         })
-                                        
-                                        
                                     }
                                 }
                             }
@@ -74,9 +74,8 @@ extension ApiService{
     
     
     func getImageComments (id: String, sort: String,  onSuccess: @escaping ([Comment]) -> Void, onFail: @escaping (Error?) -> Void) {
-        print("\(#file) - \(#function) URL - \( Constants.ServerURL.imgur)/\(Constants.ServerModel.gallery)/\(id)/comments/\(sort)/")
+      //  print("\(#file) - \(#function) URL - \( Constants.ServerURL.imgur)/\(Constants.ServerModel.gallery)/\(id)/comments/\(sort)/")
         let headers = [
-            // "Content-Type":"application/json",
             "Authorization":Constants.AuthHeader.clientId
         ]
         
@@ -97,7 +96,6 @@ extension ApiService{
                             let image_id = comment["image_id"] ?? ""
                             let comm = comment["comment"] ?? ""
                             let author = comment["author"] ?? ""
-                            print(author)
                             let downs = comment["downs"] ?? 0
                             let ups = comment["ups"] ?? 0
                             let realmComment = Comment(id: commentid , image_id: image_id as! String, comment: comm as! String, author: author as! String, downs: downs as! Int, ups: ups as! Int)

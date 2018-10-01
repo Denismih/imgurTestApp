@@ -13,11 +13,14 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        api.getImageData(section: Constants.Section.top, sort: Constants.Sort.top, window: Constants.Window.day, page: 1, onSuccess: {
-            print("ok")
-        }) { (error) in
-            print(error?.localizedDescription)
+        for page in 0...0 {
+            api.getImageData(section: Constants.Section.top, sort: Constants.Sort.top, window: Constants.Window.day, page: page, onSuccess: {
+                print(page)
+            }) { (error) in
+                print(error?.localizedDescription)
+            }
         }
+        
     }
 
 

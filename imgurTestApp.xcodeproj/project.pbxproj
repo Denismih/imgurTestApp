@@ -141,12 +141,12 @@
 				52A80BC5216107E300DFF640 /* Models */,
 				52A80B952160CCB600DFF640 /* AppDelegate.swift */,
 				52A80BCB21610F0C00DFF640 /* Constants.swift */,
+				8470E598216218DC00772E39 /* RealmService.swift */,
 				52A80B972160CCB600DFF640 /* ViewController.swift */,
 				52A80B992160CCB600DFF640 /* Main.storyboard */,
 				52A80B9C2160CCB900DFF640 /* Assets.xcassets */,
 				52A80B9E2160CCB900DFF640 /* LaunchScreen.storyboard */,
 				52A80BA12160CCB900DFF640 /* Info.plist */,
-				8470E598216218DC00772E39 /* RealmService.swift */,
 			);
 			path = imgurTestApp;
 			sourceTree = "<group>";
@@ -335,19 +335,17 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-imgurTestApp/Pods-imgurTestApp-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftEventBus/SwiftEventBus.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftEventBus.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
