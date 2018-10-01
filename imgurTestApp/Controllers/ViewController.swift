@@ -17,11 +17,13 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let realm = try! Realm()
-        images = realm.objects(Image.self)
+         images = realm.objects(Image.self)
         
         for page in 0...0 {
             api.getImageData(section: Constants.Section.top, sort: Constants.Sort.top, window: Constants.Window.day, page: page, onSuccess: {
-                print(page)
+                print("suc")
+               
+                self.collectionView.reloadData()
             }) { (error) in
                 print(error?.localizedDescription)
             }
@@ -39,8 +41,8 @@ extension ViewController : UICollectionViewDelegate, UICollectionViewDataSource,
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
-        cell.backgroundColor = UIColor.gray
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CollectionViewCell
+        cell.configure(model: images[indexPath.row])
         return cell
     }
     

@@ -31,39 +31,54 @@ extension ApiService{
                         let imageDict = json.dictionaryObject
                         guard let imageItems = imageDict?["data"] as? [[String:Any]] else {print("\(#function) json decoding error"); return}
                         var urls : [URL] = []
-                        for item in  imageItems {
-                            if let images = item["images"] as? [[String: Any]] {
-                                if let imageType = images[0]["type"] as? String {
-                                    if imageType == "image/png" || imageType == "image/jpeg" {
-                                        
-                                        let title = item["title"] ?? ""
-                                        let points = item["points"] ?? ""
-                                        let score = item["score"] ?? 0
-                                        
-                                        guard let imageLink = images[0]["link"] as? String,
-                                            let id = item["id"] as? String,
-                                            let imageId = images[0]["id"] as? String else {
-                                                print("\(#function) item json decoding error")
-                                                return
-                                        }
-                                        let realmImage = Image(id: id, title: title as! String, points: points as! Int, score: score as! Int, imageId: imageId, imageType: imageType, imageLink: imageLink, page: page, comment: nil)
-                                        
-                                        if let url = URL(string: imageLink) {
-                                            urls.append(url)
-                                        }
-                                        
-                                        api.getImageComments(id: id, sort: Constants.Sort.top, onSuccess: { (comments) in
+                       
+                        let queue:DispatchQueue    = DispatchQueue.global(qos: .userInitiated)
+                        let group:DispatchGroup    = DispatchGroup()
+                        
+                        
+                            for item in  imageItems {
+                                group.enter()
+                                queue.async {
+                                if let images = item["images"] as? [[String: Any]] {
+                                    if let imageType = images[0]["type"] as? String {
+                                        if imageType == "image/png" || imageType == "image/jpeg" {
                                             
-                                            RealmService.saveImage(model: realmImage, comments: comments)
-                                           
+                                            let title = item["title"] ?? ""
+                                            let points = item["points"] ?? ""
+                                            let score = item["score"] ?? 0
                                             
-                                        }, onFail: { (error) in
-                                            print("\(#function) get comments error - \(String(describing: error?.localizedDescription)) ")
-                                        })
+                                            guard let imageLink = images[0]["link"] as? String,
+                                                let id = item["id"] as? String,
+                                                let imageId = images[0]["id"] as? String else {
+                                                    print("\(#function) item json decoding error")
+                                                    return
+                                            }
+                                            let realmImage = Image(id: id, title: title as! String, points: points as! Int, score: score as! Int, imageId: imageId, imageType: imageType, imageLink: imageLink, page: page, comment: nil)
+                                            
+                                            if let url = URL(string: imageLink) {
+                                                urls.append(url)
+                                            }
+                                            
+                                            api.getImageComments(id: id, sort: Constants.Sort.top, onSuccess: { (comments) in
+                                                
+                                                RealmService.saveImage(model: realmImage, comments: comments)
+                                                
+                                                
+                                            }, onFail: { (error) in
+                                                print("\(#function) get comments error - \(String(describing: error?.localizedDescription)) ")
+                                            })
+                                        }
                                     }
                                 }
+                                
                             }
+                                
+                                
+                         group.leave()
                         }
+                        group.wait()
+                         onSuccess()
+                        
                         let prefetcher = ImagePrefetcher(urls: urls) {
                             skippedResources, failedResources, completedResources in
                             print("These resources are prefetched: \(completedResources)")
@@ -71,7 +86,7 @@ extension ApiService{
                         }
                         prefetcher.start()
 
-                        onSuccess()
+                        
                     }
                     
                 }
