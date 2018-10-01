@@ -20,10 +20,16 @@ extension ApiService{
         let headers = [
             "Authorization":Constants.AuthHeader.clientId
         ]
+        let queue : DispatchQueue = DispatchQueue.global(qos: .userInitiated)
+        let group : DispatchGroup = DispatchGroup()
+        queue.async {
+            
+     
         
         Alamofire.request("\( Constants.ServerURL.imgur)/\(Constants.ServerModel.gallery)/\(section)/\(sort)/\(window)/\(page)", method: .get,  encoding: JSONEncoding.default, headers: headers)
             .validate(statusCode: 200..<300)
             .responseJSON { response in
+                
                 if (response.result.error == nil) {
                     if response.data != nil {
                         //debugPrint("HTTP Response Body: \(String(data: response.data!, encoding: String.Encoding.utf8))")
@@ -32,13 +38,9 @@ extension ApiService{
                         guard let imageItems = imageDict?["data"] as? [[String:Any]] else {print("\(#function) json decoding error"); return}
                         var urls : [URL] = []
                        
-                        let queue:DispatchQueue    = DispatchQueue.global(qos: .userInitiated)
-                        let group:DispatchGroup    = DispatchGroup()
-                        
-                        
                             for item in  imageItems {
-                                group.enter()
-                                queue.async {
+                                
+                               
                                 if let images = item["images"] as? [[String: Any]] {
                                     if let imageType = images[0]["type"] as? String {
                                         if imageType == "image/png" || imageType == "image/jpeg" {
@@ -58,11 +60,11 @@ extension ApiService{
                                             if let url = URL(string: imageLink) {
                                                 urls.append(url)
                                             }
-                                            
+                                              group.enter()
                                             api.getImageComments(id: id, sort: Constants.Sort.top, onSuccess: { (comments) in
-                                                
+                                              
                                                 RealmService.saveImage(model: realmImage, comments: comments)
-                                                
+                                                group.leave()
                                                 
                                             }, onFail: { (error) in
                                                 print("\(#function) get comments error - \(String(describing: error?.localizedDescription)) ")
@@ -71,13 +73,13 @@ extension ApiService{
                                     }
                                 }
                                 
-                            }
-                                
-                                
-                         group.leave()
+                         
                         }
-                        group.wait()
-                         onSuccess()
+                        
+                        group.notify(queue: DispatchQueue.main, execute: {
+                            onSuccess()
+                        })
+                        
                         
                         let prefetcher = ImagePrefetcher(urls: urls) {
                             skippedResources, failedResources, completedResources in
@@ -94,6 +96,7 @@ extension ApiService{
                     debugPrint("HTTP Request failed: \(String(describing: response.result.error))")
                     onFail(response.result.error)
                 }
+        }
         }
     }
     
