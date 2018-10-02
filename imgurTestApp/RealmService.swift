@@ -13,13 +13,13 @@ class RealmService {
     
     static func saveImage(model: Image, comments: [Comment]) {
         let realm = try! Realm()
-        let commentsList : List<Comment> =  List<Comment>()
-        commentsList.append(objectsIn: comments)
-        model.comment = commentsList
+        
+        model.comment.append(objectsIn: comments)
         do {
             try realm.write {
+                realm.add(comments, update: true)
                 realm.add(model, update: true)
-                print("Image \(model.id) saved in DB")
+                print("Image \(model.id) saved in DB, comments count - \(model.comment.count)")
                 }
         } catch let error {
             print("\(#function) error saving model - \(error.localizedDescription)")

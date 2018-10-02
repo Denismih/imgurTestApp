@@ -52,14 +52,14 @@ extension ApiService{
                                                     print("\(#function) item json decoding error")
                                                     return
                                             }
-                                            let realmImage = Image(id: id, title: title as! String, points: points as! Int, score: score as! Int, imageId: imageId, imageType: imageType, imageLink: imageLink, page: page, comment: nil)
+                                            let realmImage = Image(id: id, title: title as! String, points: points as! Int, score: score as! Int, imageId: imageId, imageType: imageType, imageLink: imageLink, page: page)
                                             
                                             if let url = URL(string: imageLink) {
                                                 urls.append(url)
                                             }
                                               dispGroup.enter()
                                             api.getImageComments(id: id, sort: Constants.Sort.top, onSuccess: { (comments) in
-                                              
+                                             
                                                 RealmService.saveImage(model: realmImage, comments: comments)
                                                 dispGroup.leave()
                                                 

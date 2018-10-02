@@ -19,8 +19,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         images = RealmService.getImages()
-        
        
+       print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)
             api.getImageData(section: Constants.Section.top, sort: Constants.Sort.top, window: Constants.Window.day, page: 0, onSuccess: {
                 print("page 0 received")
                 self.collectionView.reloadData()
@@ -75,6 +75,7 @@ extension ViewController : UICollectionViewDelegate, UICollectionViewDataSource,
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("comments to detail - \(images[indexPath.row].comment)")
         performSegue(withIdentifier: "detailSegue", sender: images[indexPath.row])
     }
     

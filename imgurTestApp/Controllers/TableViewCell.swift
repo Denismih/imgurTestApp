@@ -12,6 +12,7 @@ class TableViewCell: UITableViewCell {
 
     @IBOutlet weak var comment: UILabel!
     @IBOutlet weak var author: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

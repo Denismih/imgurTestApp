@@ -20,13 +20,13 @@ class Image : Object {
     @objc dynamic var imageType: String = ""
     @objc dynamic var imageLink: String = ""
     @objc dynamic var page: Int = 0
-    var comment: List<Comment>? = nil
+    let comment = List<Comment>()
     
     override static func primaryKey() -> String? {
         return "id"
     }
     
-    convenience  init(id: String, title: String, points: Int, score: Int, imageId: String, imageType: String,  imageLink: String, page: Int, comment: List<Comment>? ) {
+    convenience  init(id: String, title: String, points: Int, score: Int, imageId: String, imageType: String,  imageLink: String, page: Int ) {
         self.init()
         self.id = id
         self.title = title
@@ -36,7 +36,7 @@ class Image : Object {
         self.imageType = imageType
         self.imageLink = imageLink
         self.page = page
-        self .comment = comment
+       
     }
     
 }
