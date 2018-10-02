@@ -9,23 +9,42 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-
-    let image : Image = Image()
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var tableView: UITableView!
+    
+    var image : Image = Image()
+    var comments : [Comment] = []
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let imgComments = image.comment {
+            comments = Array(imgComments)
+        }
+        
+        
+        if let url = URL(string: image.imageLink) {
+            imageView.kf.indicatorType = .activity
+            imageView.kf.setImage(with: url, placeholder: #imageLiteral(resourceName: "placeholder.png") )
+        }
+    }
+   
+}
 
-        // Do any additional setup after loading the view.
+
+extension DetailViewController : UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+       
+            return comments.count
+       
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! TableViewCell
+        cell.configure(model: comments[indexPath.row])
+        return cell
     }
-    */
-
+    
+    
+    
 }

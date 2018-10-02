@@ -14,7 +14,8 @@ class CollectionViewCell: UICollectionViewCell {
     
     func configure (model: Image) {
         if let url = URL(string: model.imageLink) {
-            image.kf.setImage(with: url, placeholder:  #imageLiteral(resourceName: "placeholder.png"))
+            image.kf.indicatorType = .activity
+            image.kf.setImage(with: url, placeholder: #imageLiteral(resourceName: "placeholder.png") )
         }
         label.text = model.title
     }

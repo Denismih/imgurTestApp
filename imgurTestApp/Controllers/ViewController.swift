@@ -75,8 +75,17 @@ extension ViewController : UICollectionViewDelegate, UICollectionViewDataSource,
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        performSegue(withIdentifier: "detailSegue", sender: images[indexPath.row])
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "detailSegue" {
+            let detailVC = segue.destination as! DetailViewController
+            if let img = sender as? Image {
+                detailVC.image = img
+            }
+            
+        }
+    }
     
 }
