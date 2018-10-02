@@ -12,6 +12,7 @@ class CollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var label: UILabel!
     
+    ///метод настраивает содержимое ячейки
     func configure (model: Image) {
         if let url = URL(string: model.imageLink) {
             image.kf.indicatorType = .activity

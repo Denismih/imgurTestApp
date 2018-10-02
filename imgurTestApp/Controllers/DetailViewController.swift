@@ -21,8 +21,6 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
        
-        print(image.comment)
-        
         if let url = URL(string: image.imageLink) {
             imageView.kf.indicatorType = .activity
             imageView.kf.setImage(with: url, placeholder: #imageLiteral(resourceName: "placeholder.png") )
@@ -31,18 +29,16 @@ class DetailViewController: UIViewController {
         points.text = "Points: \(image.points)  "
         score.text = "Score: \(image.score)"
     }
-   
 }
 
 
 extension DetailViewController : UITableViewDelegate, UITableViewDataSource {
-    
+    ///количество строк в tableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       
             return image.comment.count
-       
     }
     
+    ///метод настраивает содержимое ячейки в tableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! TableViewCell
         cell.configure(model: image.comment[indexPath.row])

@@ -15,31 +15,37 @@ import Kingfisher
 
 extension ApiService{
     
+    /// Метод получает с сервера и сохраняет в БД объекты изображений, скачивает файлы изображений в кэш
+    /// - Parameter section : String раздел API
+    /// - Parameter sort : String порядок сортировки объектов
+    /// - Parameter window : String временной промежуток определения top
+    /// - Parameter page : Int страница данных  API
+    /// - Parameter onSuccess :  CallBack успешного завершения операции
+    /// - Parameter onSuccess :  Error CallBack  завершения с ошибкой операции
+    
     func getImageData (section: String, sort: String, window: String, page: Int, onSuccess: @escaping () -> Void, onFail: @escaping (Error?) -> Void) {
-       // print("\(#file) - \(#function) URL - \( Constants.ServerURL.imgur)/\(Constants.ServerModel.gallery)/\(section)/\(sort)/\(window)/\(page)")
+        // print("\(#file) - \(#function) URL - \( Constants.ServerURL.imgur)/\(Constants.ServerModel.gallery)/\(section)/\(sort)/\(window)/\(page)")
         let headers = [
             "Authorization":Constants.AuthHeader.clientId
         ]
         let requestQueue : DispatchQueue = DispatchQueue.global(qos: .userInitiated)
         let dispGroup : DispatchGroup = DispatchGroup()
         requestQueue.async {
-        Alamofire.request("\( Constants.ServerURL.imgur)/\(Constants.ServerModel.gallery)/\(section)/\(sort)/\(window)/\(page)", method: .get,  encoding: JSONEncoding.default, headers: headers)
-            .validate(statusCode: 200..<300)
-            .responseJSON { response in
-                
-                if (response.result.error == nil) {
-                    if response.data != nil {
-                        //debugPrint("HTTP Response Body: \(String(data: response.data!, encoding: String.Encoding.utf8))")
-                        let json = JSON(response.data!)
-                        let imageDict = json.dictionaryObject
-                        guard let imageItems = imageDict?["data"] as? [[String:Any]] else {print("\(#function) json decoding error"); return}
-                        var urls : [URL] = []
-                       
+            Alamofire.request("\( Constants.ServerURL.imgur)/\(Constants.ServerModel.gallery)/\(section)/\(sort)/\(window)/\(page)", method: .get,  encoding: JSONEncoding.default, headers: headers)
+                .validate(statusCode: 200..<300)
+                .responseJSON { response in
+                    
+                    if (response.result.error == nil) {
+                        if response.data != nil {
+                            //debugPrint("HTTP Response Body: \(String(data: response.data!, encoding: String.Encoding.utf8))")
+                            let json = JSON(response.data!)
+                            let imageDict = json.dictionaryObject
+                            guard let imageItems = imageDict?["data"] as? [[String:Any]] else {print("\(#function) json decoding error"); return}
+                            var urls : [URL] = []
                             for item in  imageItems {
-                                
-                               
                                 if let images = item["images"] as? [[String: Any]] {
                                     if let imageType = images[0]["type"] as? String {
+                                        // разбираем только картинки
                                         if imageType == "image/png" || imageType == "image/jpeg" {
                                             
                                             let title = item["title"] ?? ""
@@ -57,9 +63,9 @@ extension ApiService{
                                             if let url = URL(string: imageLink) {
                                                 urls.append(url)
                                             }
-                                              dispGroup.enter()
+                                            dispGroup.enter()
                                             api.getImageComments(id: id, sort: Constants.Sort.top, onSuccess: { (comments) in
-                                             
+                                                
                                                 RealmService.saveImage(model: realmImage, comments: comments)
                                                 dispGroup.leave()
                                                 
@@ -69,34 +75,39 @@ extension ApiService{
                                         }
                                     }
                                 }
+                            }
+                            
+                            dispGroup.notify(queue: DispatchQueue.main, execute: {
+                                onSuccess()
+                            })
+                            if page > 1 {
+                                let prefetcher = ImagePrefetcher(urls: urls) {
+                                    skippedResources, failedResources, completedResources in
+                                    print("These resources are prefetched: \(completedResources)")
+                                    print("These resources are failed: \(failedResources)")
+                                }
+                                prefetcher.start()
+                            }
+                            
+                            
                         }
                         
-                        dispGroup.notify(queue: DispatchQueue.main, execute: {
-                            onSuccess()
-                        })
-                        
-                        let prefetcher = ImagePrefetcher(urls: urls) {
-                            skippedResources, failedResources, completedResources in
-                            print("These resources are prefetched: \(completedResources)")
-                            print("These resources are failed: \(failedResources)")
-                        }
-                        prefetcher.start()
-
                     }
-                    
-                }
-                else {
-                    debugPrint("HTTP Request failed: \(String(describing: response.result.error))")
-                    onFail(response.result.error)
-                }
-        }
+                    else {
+                        debugPrint("HTTP Request failed: \(String(describing: response.result.error))")
+                        onFail(response.result.error)
+                    }
+            }
         }
     }
     
-    
-    
+    /// Метод получает с сервера и передает объекты комментарев к изображениям
+    /// - Parameter id : String id изображения
+    /// - Parameter sort : String порядок сортировки объектов
+    /// - Parameter onSuccess : [Comment] CallBack успешного завершения операции
+    /// - Parameter onSuccess : Error CallBack  завершения с ошибкой операции
     func getImageComments (id: String, sort: String,  onSuccess: @escaping ([Comment]) -> Void, onFail: @escaping (Error?) -> Void) {
-      //  print("\(#file) - \(#function) URL - \( Constants.ServerURL.imgur)/\(Constants.ServerModel.gallery)/\(id)/comments/\(sort)/")
+        //  print("\(#file) - \(#function) URL - \( Constants.ServerURL.imgur)/\(Constants.ServerModel.gallery)/\(id)/comments/\(sort)/")
         let headers = [
             "Authorization":Constants.AuthHeader.clientId
         ]

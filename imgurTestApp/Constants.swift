@@ -14,7 +14,7 @@ struct  Constants {
     }
     /// Заголовок авторизации
     struct AuthHeader {
-        static let clientId = "Client-ID 45ce98ab45a6ddb"
+        static let clientId = "Client-ID 5b768967a941aa1"
     }
     
     ///Запрашиваема модель данных сервера
@@ -45,7 +45,7 @@ struct  Constants {
         static let year = "year"
         static let all = "all"
     }
-    
+    /// насттройка CollectionView на ViewController
     struct CollectionViewSetup {
         static let itemsInRow = 2
         static let aspectRatio = 2.0 / 3.0

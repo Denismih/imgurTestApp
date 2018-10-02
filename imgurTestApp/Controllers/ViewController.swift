@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 
 class ViewController: UIViewController {
-
+    
     var images : Results<Image>!
     var currentPage = 0
     @IBOutlet weak var collectionView: UICollectionView!
@@ -19,33 +19,33 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         images = RealmService.getImages()
-       
-       print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)
-            api.getImageData(section: Constants.Section.top, sort: Constants.Sort.top, window: Constants.Window.day, page: 0, onSuccess: {
-                print("page 0 received")
-                self.collectionView.reloadData()
-            }) { (error) in
-                print(" \(#function) api error - \(error?.localizedDescription)")
-            }
         
-        
+        //получаем данные для 1 страницы
+        api.getImageData(section: Constants.Section.top, sort: Constants.Sort.top, window: Constants.Window.day, page: 0, onSuccess: {
+            print("page 0 received")
+            self.collectionView.reloadData()
+        }) { (error) in
+            print(" \(#function) api error - \(error?.localizedDescription)")
+        }
     }
-
-
 }
 
+
+
 extension ViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
+    ///количество ячеек в collectonView
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return images.count
     }
     
+    ///метод кофигурирует содержимое ячейки в collectonView
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CollectionViewCell
         cell.configure(model: images[indexPath.row])
         return cell
     }
     
+    ///метод задает размер ячейки в зависимости от настроек в Constants.CollectionViewSetup
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
     {
         let collectionViewLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
@@ -53,15 +53,16 @@ extension ViewController : UICollectionViewDelegate, UICollectionViewDataSource,
         let insets = (collectionViewLayout?.minimumInteritemSpacing ?? 0) * CGFloat(Constants.CollectionViewSetup.itemsInRow + 1)
         let width = (collectionView.frame.size.width - insets) / CGFloat(Constants.CollectionViewSetup.itemsInRow)
         let heirgh =  width / CGFloat(Constants.CollectionViewSetup.aspectRatio)
-    return CGSize(width: width, height: heirgh)
+        return CGSize(width: width, height: heirgh)
     }
-    
+    ///метод обновляет collectionViewLayout после изменения ориентации устройства
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator)
     {
         super.viewWillTransition(to: size, with: coordinator)
         collectionView?.collectionViewLayout.invalidateLayout()
     }
     
+    ///метод воспроизводит пагинацию загрузки данных для следующей страницы
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if images[indexPath.row].page >= currentPage {
             currentPage += 1
@@ -74,9 +75,9 @@ extension ViewController : UICollectionViewDelegate, UICollectionViewDataSource,
         }
     }
     
+    ///метод вызывает переход на DetailViewController и передачу туда выбранного объекта изображения
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("comments to detail - \(images[indexPath.row].comment)")
-        performSegue(withIdentifier: "detailSegue", sender: images[indexPath.row])
+         performSegue(withIdentifier: "detailSegue", sender: images[indexPath.row])
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -88,5 +89,4 @@ extension ViewController : UICollectionViewDelegate, UICollectionViewDataSource,
             
         }
     }
-    
 }

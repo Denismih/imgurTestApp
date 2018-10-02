@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class TableViewCell: UITableViewCell {
 
     @IBOutlet weak var comment: UILabel!
@@ -15,14 +16,8 @@ class TableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
+    ///метод настраивает содержимое ячейки
     func configure (model: Comment) {
         comment.text = model.comment
         author.text = model.author
